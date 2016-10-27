@@ -31,6 +31,9 @@ public:
 
     	//Creates set containing (1.. size) ints
     	set<int> initSet;
+    	for (int i = 1; i < size+1; ++i) {
+    		initSet.insert(i);
+    	}
 
     	//Sets every square to have a set (1.. size)
     	for (size_t row = 0; row < size; ++row) {
@@ -38,6 +41,13 @@ public:
             	board[row][col] = initSet;
         	}
     	}	
+	}
+
+	int getSquare(const int & row, const int & col) const {
+		if (board[row][col].size() == 1) {
+			return *board[row][col].begin();
+		}
+		return -1;
 	}
 };
 
