@@ -49,6 +49,11 @@ public:
 		}
 		return -1;
 	}
+
+	bool setSquare(const int & row, const int & col, const int & value) {
+		board[row][col] = {value};
+		return true;
+	}
 };
 
 
