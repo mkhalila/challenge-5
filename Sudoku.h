@@ -36,7 +36,15 @@ private:
 		}
 	}	
 
-	void clearBox(const int & row, const int & col, const int & value) {}
+	void clearBox(const int & rowIn, const int & colIn, const int & value) {
+		for (size_t row = 0; row < 3; row++) {
+        	for (size_t col = 0; col < 3; col++) {
+        		if (*board[row + rowIn][col + colIn ].begin() != value) {
+            		board[ row + rowIn ][ col + colIn ].erase(value);
+        		}
+        	}
+		}
+	}
 
 public:
 	Sudoku(const int & sizeIn) 
@@ -79,7 +87,7 @@ public:
 				else if (board[row][col].size() == 1) {
 					clearRow(row, col, *board[row][col].begin());
 					clearCol(row, col, *board[row][col].begin());
-					clearBox(row, col, value);
+					clearBox(row-row%3, col-col%3, *board[row][col].begin());
 				}							
 			}	
 		}
