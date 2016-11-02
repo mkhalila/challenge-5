@@ -28,7 +28,13 @@ private:
 		}
 	}
 
-	void clearCol(const int & row, const int & col, const int & value) {}	
+	void clearCol(const int & rowIn, const int & colIn, const int & value) {
+		for (size_t row = 0; row < size; ++row) {
+			if (row != rowIn) {
+				board[row][colIn].erase(value);
+			}
+		}
+	}	
 
 	void clearBox(const int & row, const int & col, const int & value) {}
 
@@ -72,7 +78,7 @@ public:
 
 				else if (board[row][col].size() == 1) {
 					clearRow(row, col, *board[row][col].begin());
-					clearCol(row, col, value);
+					clearCol(row, col, *board[row][col].begin());
 					clearBox(row, col, value);
 				}							
 			}	
