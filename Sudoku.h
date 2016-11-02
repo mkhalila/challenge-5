@@ -31,7 +31,7 @@ public:
 
     	//Creates set containing (1.. size) ints
     	set<int> initSet;
-    	for (int i = 1; i < size+1; ++i) {
+    	for (size_t i = 1; i < size+1; ++i) {
     		initSet.insert(i);
     	}
 
@@ -52,6 +52,19 @@ public:
 
 	bool setSquare(const int & row, const int & col, const int & value) {
 		board[row][col] = {value};
+
+		for (size_t row = 0; row < size; ++row) {
+			for (size_t col = 0; col < size; ++col) {
+
+				if (board[row][col].size() == 0) { return false; }
+				
+				else if (board[row][col].size() == 1) {
+					clearRow(row, col, value);
+					clearCol(row, col, value);
+					clearBox(row, col, value);
+				}							
+			}	
+		}
 		return true;
 	}
 };
