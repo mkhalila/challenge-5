@@ -17,7 +17,7 @@ using std::endl;
 using std::sqrt;
 
 // TODO: Your Sudoku class goes here:
-class Sudoku {
+class Sudoku : public Searchable {
 
 private:
 	int size;
@@ -109,6 +109,14 @@ public:
 		
 		return true;
 	}
+
+	virtual bool isSolution() const override {}
+
+	virtual void write(ostream & o) const override {}
+
+	virtual int heuristicValue() const override {}
+
+	virtual vector<unique_ptr<Searchable> > successors() const override {}
 
 };
 
