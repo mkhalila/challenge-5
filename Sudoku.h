@@ -123,7 +123,18 @@ public:
 		return count == (size*size);
 	}
 
-	virtual void write(ostream & o) const override {}
+	virtual void write(ostream & o) const override {
+		for (size_t i = 0; i < size; ++i) {
+			for (size_t j = 0; j < size; ++j) {
+				
+				for (const int & val : board[i][j]) {
+					o << val << " ";
+				}
+				o << endl;
+			}	
+			o << endl;
+		}
+	}
 
 	virtual int heuristicValue() const override {}
 
