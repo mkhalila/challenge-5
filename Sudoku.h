@@ -138,7 +138,29 @@ public:
 
 	virtual int heuristicValue() const override {}
 
-	virtual vector<unique_ptr<Searchable> > successors() const override {}
+	virtual vector< unique_ptr<Searchable> > successors() const override {
+		vector< unique_ptr<Searchable> > success;
+
+		for (size_t i = 0; i < size; ++i) {
+			for (size_t j = 0; j < size; ++j) {
+				
+				if (board[i][j].size() > 1) {
+					for (const auto & val : board[i][j]) {
+						Sudoku * sudCopy = new Sudoku(*this);
+						bool isSuccess = sudCopy->setSquare(i, j, val);
+						if (isSuccess) {
+							success.push_back(unique_ptr<Searchable>(sudCopy));
+						} else {
+							delete sudCopy;
+						}
+					}
+					return success;
+				}
+			}	
+		}
+
+		return success;
+	}
 
 };
 
