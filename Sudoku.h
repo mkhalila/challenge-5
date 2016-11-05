@@ -13,6 +13,9 @@ using std::set;
 using std::cout;
 using std::endl;
 
+#include <cmath>
+using std::sqrt;
+
 // TODO: Your Sudoku class goes here:
 class Sudoku {
 
@@ -37,12 +40,15 @@ private:
 	}	
 
 	void clearBox(const int & rowIn, const int & colIn, const int & value) {
-		for (size_t row = 0; row < 3; row++) {
-        	for (size_t col = 0; col < 3; col++) {
-        		if (*board[row + rowIn][col + colIn ].begin() != value) {
-            		board[ row + rowIn ][ col + colIn ].erase(value);
-        		}
-        	}
+    	int y = sqrt(size) * floor(rowIn/sqrt(size));
+    	int x = sqrt(size) * floor(colIn/sqrt(size)); 
+
+		for (int i = y; i < y + sqrt(size); ++i) {
+			for (int j = x; j < x + sqrt(size); ++j) {
+				
+				if (i == rowIn && j == colIn) { continue; }
+				else { board[i][j].erase(value); }
+			}
 		}
 	}
 
@@ -78,19 +84,29 @@ public:
 
 	bool setSquare(const int & row, const int & col, const int & value) {
 		board[row][col] = {value};
+    	int prev = 0;
+    	int current = 0;
 
-		for (size_t row = 0; row < size; ++row) {
-			for (size_t col = 0; col < size; ++col) {
+		while (true) {
+			for (size_t x = 0; x < size; ++x) {
+				for (size_t y = 0; y < size; ++y) {
 
-				if (board[row][col].size() == 0) { return false; }
-
-				else if (board[row][col].size() == 1) {
-					clearRow(row, col, *board[row][col].begin());
-					clearCol(row, col, *board[row][col].begin());
-					clearBox(row-row%3, col-col%3, *board[row][col].begin());
-				}							
-			}	
+          			if (board[x][y].size() == 1) {
+            			++current;
+						clearRow(x, y, *board[x][y].begin());
+						clearCol(x, y, *board[x][y].begin());
+						clearBox(x, y, *board[x][y].begin());
+					}
+          			
+          			if (board[x][y].size() == 0) { return false; }
+				}
+			}
+			
+			if (prev == current) { break; }
+      		prev = current;
+      		current = 0;
 		}
+		
 		return true;
 	}
 
