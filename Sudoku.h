@@ -110,7 +110,18 @@ public:
 		return true;
 	}
 
-	virtual bool isSolution() const override {}
+	virtual bool isSolution() const override {
+		int count = 0;
+		for (size_t i = 0; i < size; ++i) {
+			for (size_t j = 0; j < size; ++j) {
+				
+				if (board[i][j].size() == 1) {
+					++count;
+				}
+			}	
+		}
+		return count == (size*size);
+	}
 
 	virtual void write(ostream & o) const override {}
 
