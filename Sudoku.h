@@ -91,6 +91,27 @@ public:
 			for (size_t x = 0; x < size; ++x) {
 				for (size_t y = 0; y < size; ++y) {
 
+					if (board[x][y].size() == 2) {
+						++current;
+						//Look for another set of size 2 in this row
+						for (size_t z = 0; z < size; ++z) {
+							if ((y != z) && (board[x][y] == board[x][z])) {
+								auto itr = board[x][y].begin();
+								for (size_t col = 0; col < size; ++col) {
+									if ((col != y) && (col != z)) {
+										board[x][col].erase(*itr);
+									}
+								}
+								++itr;
+								for (size_t col = 0; col < size; ++col) {
+									if ((col != y) && (col != z)) {
+										board[x][col].erase(*itr);
+									}
+								}
+							}
+						}
+					}
+
           			if (board[x][y].size() == 1) {
             			++current;
 						clearRow(x, y, *board[x][y].begin());
