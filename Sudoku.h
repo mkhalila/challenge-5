@@ -110,6 +110,25 @@ public:
 								}
 							}
 						}
+
+						//Look for another set of size 2 in this col
+						for (size_t z = 0; z < size; ++z) {
+							if ((x != z) && (board[x][y] == board[z][y])) {
+								auto itr = board[x][y].begin();
+								for (size_t row = 0; row < size; ++row) {
+									if ((row != x) && (row != z)) {
+										board[row][y].erase(*itr);
+									}
+								}
+								++itr;
+								for (size_t row = 0; row < size; ++row) {
+									if ((row != x) && (row != z)) {
+										board[row][y].erase(*itr);
+									}
+								}
+							}
+						}
+
 					}
 
           			if (board[x][y].size() == 1) {
