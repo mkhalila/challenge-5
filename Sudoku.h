@@ -129,6 +129,45 @@ public:
 							}
 						}
 
+						//Look for another set of size 2 in sub-grid
+						int rowStart = sqrt(size) * floor(x/sqrt(size));
+    					int colStart = sqrt(size) * floor(y/sqrt(size)); 
+    					int foundX = -1;
+    					int foundY = -1;
+
+						for (int i = rowStart; i < rowStart + sqrt(size); ++i) {
+							for (int j = colStart; j < colStart + sqrt(size); ++j) {
+				
+								if ((i != x) && (j != y) && (board[i][j] == board[x][y])) {
+									foundX = i;
+									foundY = j;
+									cout << "found X = " << foundX << " found Y = " << foundY << endl;
+								}
+							}
+						}
+
+						auto itr = board[x][y].begin();
+
+						for (int i = rowStart; i < rowStart + sqrt(size); ++i) {
+							for (int j = colStart; j < colStart + sqrt(size); ++j) {
+				
+								if ((foundX > -1) && (i != x) && (i != foundX) && (j != y) && (j != foundY)) {
+									board[rowStart][colStart].erase(*itr);
+								}
+							}
+						}
+
+						++itr;
+
+						for (int i = rowStart; i < rowStart + sqrt(size); ++i) {
+							for (int j = colStart; j < colStart + sqrt(size); ++j) {
+				
+								if ((foundX > -1) && (i != x) && (i != foundX) && (j != y) && (j != foundY)) {
+									board[rowStart][colStart].erase(*itr);
+								}
+							}
+						}
+
 					}
 
           			if (board[x][y].size() == 1) {
