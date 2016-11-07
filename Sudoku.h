@@ -242,9 +242,9 @@ public:
 							delete sudCopy;
 						}
 					}
-					/*if ((success.size() == 1) && (success[0]->isSolution())) {
+					if ((success.size() == 1) && !(success[0]->isSolution())) {
 						return success[0]->successors();
-					}*/
+					}
 					return success;
 				}
 			}	
