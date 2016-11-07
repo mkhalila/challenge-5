@@ -141,7 +141,6 @@ public:
 								if ((i != x) && (j != y) && (board[i][j] == board[x][y])) {
 									foundX = i;
 									foundY = j;
-									cout << "found X = " << foundX << " found Y = " << foundY << endl;
 								}
 							}
 						}
@@ -215,7 +214,17 @@ public:
 		}
 	}
 
-	virtual int heuristicValue() const override {}
+	virtual int heuristicValue() const override {
+		int count = 0;
+		for (int row = 0; row < size; ++row) {
+			for (int col = 0; col < size; ++col) {
+				if (board[row][col].size() > 1) {
+					++count;
+				}
+			}
+		}
+		return count;
+	}
 
 	virtual vector< unique_ptr<Searchable> > successors() const override {
 		vector< unique_ptr<Searchable> > success;
