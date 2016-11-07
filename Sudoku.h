@@ -127,7 +127,7 @@ public:
 						}
 
 						//Look for another set of size 2 in sub-grid
-						/*int rowStart = sqrt(size) * floor(x/sqrt(size));
+						int rowStart = sqrt(size) * floor(x/sqrt(size));
     					int colStart = sqrt(size) * floor(y/sqrt(size)); 
     					int foundX = -1;
     					int foundY = -1;
@@ -153,7 +153,7 @@ public:
 									board[i][j].erase(second);
 								}
 							}
-						}*/
+						}
 
 					}
 
@@ -190,7 +190,7 @@ public:
 	}
 
 	virtual void write(ostream & o) const override {
-		/*for (size_t i = 0; i < size; ++i) {
+		for (size_t i = 0; i < size; ++i) {
 			for (size_t j = 0; j < size; ++j) {
 				
 				for (const int & val : board[i][j]) {
@@ -199,7 +199,7 @@ public:
 				o << endl;
 			}	
 			o << endl;
-		}*/
+		}
 	}
 
 	virtual int heuristicValue() const override {
