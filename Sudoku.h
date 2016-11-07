@@ -97,17 +97,16 @@ public:
 						for (size_t z = 0; z < size; ++z) {
 							if ((y != z) && (board[x][y] == board[x][z])) {
 								auto itr = board[x][y].begin();
-								for (size_t col = 0; col < size; ++col) {
-									if ((col != y) && (col != z)) {
-										board[x][col].erase(*itr);
-									}
-								}
+								int first = *itr;
 								++itr;
+								int second = *itr;
 								for (size_t col = 0; col < size; ++col) {
 									if ((col != y) && (col != z)) {
-										board[x][col].erase(*itr);
+										board[x][col].erase(first);
+										board[x][col].erase(second);
 									}
 								}
+								break;
 							}
 						}
 
@@ -115,17 +114,16 @@ public:
 						for (size_t z = 0; z < size; ++z) {
 							if ((x != z) && (board[x][y] == board[z][y])) {
 								auto itr = board[x][y].begin();
-								for (size_t row = 0; row < size; ++row) {
-									if ((row != x) && (row != z)) {
-										board[row][y].erase(*itr);
-									}
-								}
+								int first = *itr;
 								++itr;
+								int second = *itr;
 								for (size_t row = 0; row < size; ++row) {
 									if ((row != x) && (row != z)) {
-										board[row][y].erase(*itr);
+										board[row][y].erase(first);
+										board[row][y].erase(second);
 									}
 								}
+								break;
 							}
 						}
 
@@ -135,34 +133,25 @@ public:
     					int foundX = -1;
     					int foundY = -1;
 
-						for (int i = rowStart; i < rowStart + sqrt(size); ++i) {
-							for (int j = colStart; j < colStart + sqrt(size); ++j) {
-				
-								if ((i != x) && (j != y) && (board[i][j] == board[x][y])) {
+						for (int i = rowStart; i < (rowStart + sqrt(size)); ++i) {
+							for (int j = colStart; j < (colStart + sqrt(size)); ++j) {
+								if ( (i != x) && (j != y) && (board[x][y] == board[i][j]) ) {
 									foundX = i;
 									foundY = j;
 								}
 							}
 						}
 
-						auto itr = board[x][y].begin();
+						auto boxItr = board[x][y].begin();
+						int first = *boxItr;
+						++boxItr;
+						int second = *boxItr;
 
-						for (int i = rowStart; i < rowStart + sqrt(size); ++i) {
-							for (int j = colStart; j < colStart + sqrt(size); ++j) {
-				
-								if ((foundX > -1) && (i != x) && (i != foundX) && (j != y) && (j != foundY)) {
-									board[rowStart][colStart].erase(*itr);
-								}
-							}
-						}
-
-						++itr;
-
-						for (int i = rowStart; i < rowStart + sqrt(size); ++i) {
-							for (int j = colStart; j < colStart + sqrt(size); ++j) {
-				
-								if ((foundX > -1) && (i != x) && (i != foundX) && (j != y) && (j != foundY)) {
-									board[rowStart][colStart].erase(*itr);
+						for (int i = rowStart; i < (rowStart + sqrt(size)); ++i) {
+							for (int j = colStart; j < (colStart + sqrt(size)); ++j) {
+								if ( (foundX > -1) && (i != x) && (i != foundX) && (j != y) && (j != foundY) ) {
+									board[i][j].erase(first);
+									board[i][j].erase(second);
 								}
 							}
 						}*/
