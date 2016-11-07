@@ -26,7 +26,7 @@ public:
     }
     
     bool operator()(Searchable & other) const {
-    	return *this.heuristicValue() > other.heuristicValue();
+    	return heuristicValue() > other.heuristicValue();
     } 
 };
 
