@@ -23,7 +23,7 @@ private:
 	int size;
 	vector< vector< set<int> > > board;
 
-	void clearRow(const int & rowIn, const int & colIn, const int & value) {
+	bool clearRow(const int & rowIn, const int & colIn, const int & value) {
 		for (size_t col = 0; col < size; ++col) {
 			if (col != colIn) {
 				board[rowIn][col].erase(value);
@@ -84,6 +84,11 @@ public:
 
 	bool setSquare(const int & row, const int & col, const int & value) {
 		board[row][col] = {value};
+
+    	clearRow(row, col, *board[row][col].begin());
+		clearCol(row, col, *board[row][col].begin());
+		clearBox(row, col, *board[row][col].begin());
+    	
     	int prev = 0;
     	int current = 0;
 
