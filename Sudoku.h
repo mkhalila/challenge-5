@@ -91,6 +91,15 @@ public:
 			for (size_t x = 0; x < size; ++x) {
 				for (size_t y = 0; y < size; ++y) {
 
+          			if (board[x][y].size() == 0) { return false; }
+
+					if (board[x][y].size() == 1) {
+            			++current;
+						clearRow(x, y, *board[x][y].begin());
+						clearCol(x, y, *board[x][y].begin());
+						clearBox(x, y, *board[x][y].begin());
+					}
+
 					if (board[x][y].size() == 2) {
 						++current;
 						//Look for another set of size 2 in this row
@@ -123,6 +132,7 @@ public:
 										board[row][y].erase(second);
 									}
 								}
+								break;
 							}
 						}
 
@@ -137,6 +147,7 @@ public:
 								if ( (i != x) && (j != y) && (board[x][y] == board[i][j]) ) {
 									foundX = i;
 									foundY = j;
+									break;
 								}
 							}
 						}
@@ -157,14 +168,6 @@ public:
 
 					}
 
-          			if (board[x][y].size() == 1) {
-            			++current;
-						clearRow(x, y, *board[x][y].begin());
-						clearCol(x, y, *board[x][y].begin());
-						clearBox(x, y, *board[x][y].begin());
-					}
-          			
-          			if (board[x][y].size() == 0) { return false; }
 				}
 			}
 			
