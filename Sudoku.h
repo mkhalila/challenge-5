@@ -84,11 +84,6 @@ public:
 
 	bool setSquare(const int & row, const int & col, const int & value) {
 		board[row][col] = {value};
-
-    	clearRow(row, col, *board[row][col].begin());
-		clearCol(row, col, *board[row][col].begin());
-		clearBox(row, col, *board[row][col].begin());
-    	
     	int prev = 0;
     	int current = 0;
 
