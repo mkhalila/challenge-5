@@ -23,7 +23,7 @@ private:
 	int size;
 	vector< vector< set<int> > > board;
 
-	bool clearRow(const int & rowIn, const int & colIn, const int & value) {
+	void clearRow(const int & rowIn, const int & colIn, const int & value) {
 		for (size_t col = 0; col < size; ++col) {
 			if (col != colIn) {
 				board[rowIn][col].erase(value);
