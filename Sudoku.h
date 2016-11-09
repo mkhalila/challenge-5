@@ -234,7 +234,7 @@ public:
 	}
 
 	virtual bool isSolution() const override {
-		/*int count = 0;
+		int count = 0;
 		for (size_t i = 0; i < size; ++i) {
 			for (size_t j = 0; j < size; ++j) {
 				
@@ -242,9 +242,8 @@ public:
 					++count;
 				}
 			}	
-		}*/
-		//cout << "Singles " << noOfSingles << endl;
-		return noOfSingles == (size*size);
+		}
+		return count == (size*size);
 	}
 
 	virtual void write(ostream & o) const override {
