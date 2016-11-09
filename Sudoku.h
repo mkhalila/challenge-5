@@ -24,6 +24,7 @@ private:
 	vector< vector< set<int> > > board;
 	vector< vector<bool> > singleVisited;
 	vector< vector<bool> > doubleVisited;
+	vector< vector<bool> > successorsVisited;
 
 	bool clearRow(const int & rowIn, const int & colIn, const int & value) {
 		for (size_t col = 0; col < size; ++col) {
@@ -73,12 +74,14 @@ public:
 		//Initialise 2d board of given size
 		board.resize(size);
 		singleVisited.resize(size);
-		doubleVisited.resize(size);;
+		doubleVisited.resize(size);
+		successorsVisited.resize(size);
 
 		for (size_t i = 0; i < size; ++i) {
         	board[i] = vector< set<int> >(size);
         	singleVisited[i] = vector<bool>(size);
         	doubleVisited[i] = vector<bool>(size);
+        	successorsVisited[i] = vector<bool>(size);
     	}
 
     	//Creates set containing (1.. size) ints
@@ -93,6 +96,7 @@ public:
             	board[row][col] = initSet;
             	singleVisited[row][col] = false;
             	doubleVisited[row][col] = false;
+            	successorsVisited[row][col] = false;
         	}
     	}	
 	}
@@ -259,6 +263,7 @@ public:
 				}
 			}
 		}
+		cout << "I am called" << endl;
 		return count;
 	}
 
@@ -267,6 +272,10 @@ public:
 
 		for (size_t i = 0; i < size; ++i) {
 			for (size_t j = 0; j < size; ++j) {
+
+				if (doubleVisited[i][j] == true) {
+					continue;
+				}
 				
 				if (board[i][j].size() > 1) {
 					for (const auto & val : board[i][j]) {
