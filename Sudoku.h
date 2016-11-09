@@ -65,8 +65,10 @@ private:
 	}
 
 public:
+
 	Sudoku(const int & sizeIn) 
 	: size (sizeIn) {
+
 		//Initialise 2d board of given size
 		board.resize(size);
 		singleVisited.resize(size);
