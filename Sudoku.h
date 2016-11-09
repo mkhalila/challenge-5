@@ -280,14 +280,6 @@ public:
 	}
 
 	virtual int heuristicValue() const override {
-		/*size_t count = 0;
-		for (size_t row = 0; row < size; ++row) {
-			for (size_t col = 0; col < size; ++col) {
-				if (board[row][col].size() > 1) {
-					++count;
-				}
-			}
-		}*/
 		return (size*size) - singles;
 	}
 
