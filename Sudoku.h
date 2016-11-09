@@ -125,8 +125,8 @@ public:
 		board[row][col] = {value};
 		counted[row][col] = true;
 		++singles;
-    	int prev = 0;
-    	int current = 0;
+    	size_t prev = 0;
+    	size_t current = 0;
 
 		while (true) {
 			for (size_t x = 0; x < size; ++x) {
@@ -157,9 +157,9 @@ public:
 								doubleVisited[x][y] = true;
 								doubleVisited[x][z] = true;
 								auto itr = board[x][y].begin();
-								int first = *itr;
+								size_t first = *itr;
 								++itr;
-								int second = *itr;
+								size_t second = *itr;
 								for (size_t col = 0; col < size; ++col) {
 									if ((col != y) && (col != z)) {
 										board[x][col].erase(first);
@@ -184,9 +184,9 @@ public:
 								doubleVisited[x][y] = true;
 								doubleVisited[z][y] = true;
 								auto itr = board[x][y].begin();
-								int first = *itr;
+								size_t first = *itr;
 								++itr;
-								int second = *itr;
+								size_t second = *itr;
 								for (size_t row = 0; row < size; ++row) {
 									if ((row != x) && (row != z)) {
 										board[row][y].erase(first);
@@ -206,8 +206,8 @@ public:
 						}
 
 						//Look for another set of size 2 in sub-grid
-						int rowStart = sqrt(size) * floor(x/sqrt(size));
-    					int colStart = sqrt(size) * floor(y/sqrt(size)); 
+						size_t rowStart = sqrt(size) * floor(x/sqrt(size));
+    					size_t colStart = sqrt(size) * floor(y/sqrt(size)); 
     					int foundX = -1;
     					int foundY = -1;
 
@@ -225,9 +225,9 @@ public:
 						if (foundX > -1) doubleVisited[foundX][foundY] = true;
 
 						auto boxItr = board[x][y].begin();
-						int first = *boxItr;
+						size_t first = *boxItr;
 						++boxItr;
-						int second = *boxItr;
+						size_t second = *boxItr;
 
 						for (size_t i = rowStart; i < (rowStart + sqrt(size)); ++i) {
 							for (size_t j = colStart; j < (colStart + sqrt(size)); ++j) {
@@ -254,7 +254,7 @@ public:
 	}
 
 	virtual bool isSolution() const override {
-		int count = 0;
+		size_t count = 0;
 		for (size_t i = 0; i < size; ++i) {
 			for (size_t j = 0; j < size; ++j) {
 				
