@@ -23,6 +23,7 @@ private:
 	int size;
 	vector< vector< set<int> > > board;
 	vector< vector<bool> > singleVisited;
+	vector< vector<bool> > doubleVisited;
 
 	bool clearRow(const int & rowIn, const int & colIn, const int & value) {
 		for (size_t col = 0; col < size; ++col) {
@@ -72,10 +73,12 @@ public:
 		//Initialise 2d board of given size
 		board.resize(size);
 		singleVisited.resize(size);
+		doubleVisited.resize(size);;
 
 		for (size_t i = 0; i < size; ++i) {
         	board[i] = vector< set<int> >(size);
         	singleVisited[i] = vector<bool>(size);
+        	doubleVisited[i] = vector<bool>(size);
     	}
 
     	//Creates set containing (1.. size) ints
@@ -89,6 +92,7 @@ public:
         	for (size_t col = 0; col < size; ++col) {
             	board[row][col] = initSet;
             	singleVisited[row][col] = false;
+            	doubleVisited[row][col] = false;
         	}
     	}	
 	}
@@ -123,10 +127,16 @@ public:
 					}
 
 					if (board[x][y].size() == 2) {
+						if (doubleVisited[x][y] == true) {
+							continue;
+						}
 						++current;
+
 						//Look for another set of size 2 in this row
 						for (size_t z = 0; z < size; ++z) {
 							if ((y != z) && (board[x][y] == board[x][z])) {
+								doubleVisited[x][y] = true;
+								doubleVisited[x][z] = true;
 								auto itr = board[x][y].begin();
 								int first = *itr;
 								++itr;
@@ -148,6 +158,8 @@ public:
 						//Look for another set of size 2 in this col
 						for (size_t z = 0; z < size; ++z) {
 							if ((x != z) && (board[x][y] == board[z][y])) {
+								doubleVisited[x][y] = true;
+								doubleVisited[z][y] = true;
 								auto itr = board[x][y].begin();
 								int first = *itr;
 								++itr;
@@ -167,7 +179,7 @@ public:
 						}
 
 						//Look for another set of size 2 in sub-grid
-						/*int rowStart = sqrt(size) * floor(x/sqrt(size));
+						int rowStart = sqrt(size) * floor(x/sqrt(size));
     					int colStart = sqrt(size) * floor(y/sqrt(size)); 
     					int foundX = -1;
     					int foundY = -1;
@@ -182,6 +194,9 @@ public:
 							}
 						}
 
+						doubleVisited[x][y] = true;
+						if (foundX > -1) doubleVisited[foundX][foundY] = true;
+
 						auto boxItr = board[x][y].begin();
 						int first = *boxItr;
 						++boxItr;
@@ -194,7 +209,7 @@ public:
 									board[i][j].erase(second);
 								}
 							}
-						}*/
+						}
 
 					}
 
