@@ -126,8 +126,8 @@ public:
 										/*if (board[x][col].size() == 0)
 											return false;*/
 										board[x][col].erase(second);
-										if (board[x][col].size() == 0)
-											return false;
+										/*if (board[x][col].size() == 0)
+											return false;*/
 									}
 								}
 								break;
@@ -147,8 +147,8 @@ public:
 										/*if (board[row][y].size() == 0)
 											return false;*/
 										board[row][y].erase(second);
-										if (board[row][y].size() == 0)
-											return false;
+										/*if (board[row][y].size() == 0)
+											return false;*/
 									}
 								}
 								break;
