@@ -24,6 +24,8 @@ private:
 	vector< vector< set<int> > > board;
 	vector< vector<bool> > singleVisited;
 	vector< vector<bool> > doubleVisited;
+	vector< vector<bool> > counted;
+	int singles;
 
 	bool clearRow(const size_t & rowIn, const size_t & colIn, const int & value) {
 		for (size_t col = 0; col < size; ++col) {
@@ -31,6 +33,10 @@ private:
 				board[rowIn][col].erase(value);
 				if (board[rowIn][col].size() == 0) 
 					return false;
+				if (board[rowIn][col].size() == 1 && counted[rowIn][col] == false) {
+					counted[rowIn][col] = true;
+					++singles;
+				}
 			}
 		}
 		return true;
@@ -42,6 +48,10 @@ private:
 				board[row][colIn].erase(value);
 				if (board[row][colIn].size() == 0) 
 					return false;
+				if (board[row][colIn].size() == 1 && counted[row][colIn] == false) {
+					counted[row][colIn] = true;
+					++singles;
+				}
 			}
 		}
 		return true;
@@ -59,6 +69,10 @@ private:
 					board[i][j].erase(value); 
 					if (board[i][j].size() == 0)
 						return false;
+					if (board[i][j].size() == 1 && counted[i][j] == false) {
+						counted[i][j] = true;
+						++singles;
+					}	
 				}
 			}
 		}
@@ -74,11 +88,13 @@ public:
 		board.resize(size);
 		singleVisited.resize(size);
 		doubleVisited.resize(size);
+		counted.resize(size);
 
 		for (size_t i = 0; i < size; ++i) {
         	board[i] = vector< set<int> >(size);
         	singleVisited[i] = vector<bool>(size);
         	doubleVisited[i] = vector<bool>(size);
+        	counted[i] = vector<bool>(size);
     	}
 
     	//Creates set containing (1.. size) ints
@@ -93,6 +109,7 @@ public:
             	board[row][col] = initSet;
             	singleVisited[row][col] = false;
             	doubleVisited[row][col] = false;
+            	counted[row][col] = false;
         	}
     	}	
 	}
@@ -106,6 +123,8 @@ public:
 
 	bool setSquare(const int & row, const int & col, const int & value) {
 		board[row][col] = {value};
+		counted[row][col] = true;
+		++singles;
     	int prev = 0;
     	int current = 0;
 
@@ -149,6 +168,10 @@ public:
 										board[x][col].erase(second);
 										if (board[x][col].size() == 0)
 											return false;
+										if (board[x][col].size() == 1 && counted[x][col] == false) {
+											counted[x][col] = true;
+											++singles;
+										}	
 									}
 								}
 								break;
@@ -172,6 +195,10 @@ public:
 										board[row][y].erase(second);
 										if (board[row][y].size() == 0)
 											return false;
+										if (board[row][y].size() == 1 && counted[row][y] == false) {
+											counted[row][y] = true;
+											++singles;
+										}	
 									}
 								}
 								break;
@@ -207,6 +234,10 @@ public:
 								if ( (foundX > -1) && (i != x) && (i != foundX) && (j != y) && (j != foundY) ) {
 									board[i][j].erase(first);
 									board[i][j].erase(second);
+									if (board[i][j].size() == 1 && counted[i][j] == false) {
+											counted[i][j] = true;
+											++singles;
+									}	
 								}
 							}
 						}
@@ -249,15 +280,15 @@ public:
 	}
 
 	virtual int heuristicValue() const override {
-		size_t count = 0;
+		/*size_t count = 0;
 		for (size_t row = 0; row < size; ++row) {
 			for (size_t col = 0; col < size; ++col) {
 				if (board[row][col].size() > 1) {
 					++count;
 				}
 			}
-		}
-		return count;
+		}*/
+		return (size*size) - singles;
 	}
 
 	virtual vector< unique_ptr<Searchable> > successors() const override {
