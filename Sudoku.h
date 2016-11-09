@@ -20,7 +20,7 @@ using std::sqrt;
 class Sudoku : public Searchable {
 
 private:
-	size_t size;
+	int size;
 	vector< vector< set<int> > > board;
 	vector< vector<bool> > singleVisited;
 	vector< vector<bool> > doubleVisited;
@@ -81,7 +81,7 @@ private:
 
 public:
 
-	Sudoku(const size_t & sizeIn) 
+	Sudoku(const int & sizeIn) 
 	: size (sizeIn) {
 
 		//Initialise 2d board of given size
@@ -206,8 +206,8 @@ public:
 						}
 
 						//Look for another set of size 2 in sub-grid
-						size_t rowStart = sqrt(size) * floor(x/sqrt(size));
-    					size_t colStart = sqrt(size) * floor(y/sqrt(size)); 
+						int rowStart = sqrt(size) * floor(x/sqrt(size));
+    					int colStart = sqrt(size) * floor(y/sqrt(size)); 
     					int foundX = -1;
     					int foundY = -1;
 
@@ -254,7 +254,7 @@ public:
 	}
 
 	virtual bool isSolution() const override {
-		size_t count = 0;
+		int count = 0;
 		for (size_t i = 0; i < size; ++i) {
 			for (size_t j = 0; j < size; ++j) {
 				
