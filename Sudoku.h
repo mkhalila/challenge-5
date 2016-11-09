@@ -123,8 +123,8 @@ public:
 								for (size_t col = 0; col < size; ++col) {
 									if ((col != y) && (col != z)) {
 										board[x][col].erase(first);
-										if (board[x][col].size() == 0)
-											return false;
+										/*if (board[x][col].size() == 0)
+											return false;*/
 										board[x][col].erase(second);
 										if (board[x][col].size() == 0)
 											return false;
@@ -144,8 +144,8 @@ public:
 								for (size_t row = 0; row < size; ++row) {
 									if ((row != x) && (row != z)) {
 										board[row][y].erase(first);
-										if (board[row][y].size() == 0)
-											return false;
+										/*if (board[row][y].size() == 0)
+											return false;*/
 										board[row][y].erase(second);
 										if (board[row][y].size() == 0)
 											return false;
