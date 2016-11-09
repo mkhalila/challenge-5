@@ -24,10 +24,6 @@ public:
     virtual int heuristicValue() const {
         return 0;
     }
-    
-    bool operator()(Searchable & other) const {
-    	return heuristicValue() > other.heuristicValue();
-    } 
 };
 
 #endif
