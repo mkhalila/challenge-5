@@ -21,7 +21,8 @@ class Sudoku : public Searchable {
 
 private:
 	int size;
-	vector< vector< set<int> > > board;
+	vector< vector< set<int> > > board; 
+	vector<vector<bool>> counted;
 
 	bool clearRow(const int & rowIn, const int & colIn, const int & value) {
 		for (size_t col = 0; col < size; ++col) {
@@ -29,6 +30,10 @@ private:
 				board[rowIn][col].erase(value);
 				if (board[rowIn][col].size() == 0) 
 					return false;
+				if (board[rowIn][col].size() == 1 && counted[rowIn][col] == false) {
+					++noOfSingles;
+					counted[rowIn][col] = true;
+				}
 			}
 		}
 		return true;
@@ -40,6 +45,10 @@ private:
 				board[row][colIn].erase(value);
 				if (board[row][colIn].size() == 0) 
 					return false;
+				if (board[row][colIn].size() == 1 && counted[row][colIn] == false) {
+					++noOfSingles;
+					counted[row][colIn] = true;
+				}
 			}
 		}
 		return true;
@@ -57,6 +66,10 @@ private:
 					board[i][j].erase(value); 
 					if (board[i][j].size() == 0)
 						return false;
+					if (board[i][j].size() == 1 && counted[i][j] == false) {
+						++noOfSingles;
+						counted[i][j] = true;
+					}
 				}
 			}
 		}
@@ -64,12 +77,19 @@ private:
 	}
 
 public:
+	int noOfSingles;
+
 	Sudoku(const int & sizeIn) 
 	: size (sizeIn) {
+		noOfSingles = 0;
+
+		counted.resize(size);
+
 		//Initialise 2d board of given size
 		board.resize(size);
 		for (size_t i = 0; i < size; ++i) {
         	board[i] = vector< set<int> >(size);
+        	counted[i] = vector<bool>(size);
     	}
 
     	//Creates set containing (1.. size) ints
@@ -82,6 +102,7 @@ public:
     	for (size_t row = 0; row < size; ++row) {
         	for (size_t col = 0; col < size; ++col) {
             	board[row][col] = initSet;
+            	counted[row][col] = false;
         	}
     	}	
 	}
@@ -95,6 +116,8 @@ public:
 
 	bool setSquare(const int & row, const int & col, const int & value) {
 		board[row][col] = {value};
+		++noOfSingles;
+		counted[row][col] = true;
     	int prev = 0;
     	int current = 0;
 
@@ -128,6 +151,10 @@ public:
 										board[x][col].erase(second);
 										/*if (board[x][col].size() == 0)
 											return false;*/
+										if (board[x][col].size() == 1 && counted[x][col] == false) {
+											++noOfSingles;
+											counted[x][col] = true;
+										}
 									}
 								}
 								break;
@@ -149,6 +176,10 @@ public:
 										board[row][y].erase(second);
 										/*if (board[row][y].size() == 0)
 											return false;*/
+										if (board[row][y].size() == 0 && counted[row][y] == false) {
+											++noOfSingles;
+											counted[row][y] = true;
+										}
 									}
 								}
 								break;
@@ -181,6 +212,10 @@ public:
 								if ( (foundX > -1) && (i != x) && (i != foundX) && (j != y) && (j != foundY) ) {
 									board[i][j].erase(first);
 									board[i][j].erase(second);
+									if (board[i][j].size() == 1 && counted[i][j] == false) {
+ 										++noOfSingles;
+ 										counted[i][j] = true;
+									}
 								}
 							}
 						}
@@ -199,7 +234,7 @@ public:
 	}
 
 	virtual bool isSolution() const override {
-		int count = 0;
+		/*int count = 0;
 		for (size_t i = 0; i < size; ++i) {
 			for (size_t j = 0; j < size; ++j) {
 				
@@ -207,8 +242,9 @@ public:
 					++count;
 				}
 			}	
-		}
-		return count == (size*size);
+		}*/
+		//cout << "Singles " << noOfSingles << endl;
+		return noOfSingles == (size*size);
 	}
 
 	virtual void write(ostream & o) const override {
@@ -225,15 +261,15 @@ public:
 	}
 
 	virtual int heuristicValue() const override {
-		int count = 0;
+		/*int count = 0;
 		for (int row = 0; row < size; ++row) {
 			for (int col = 0; col < size; ++col) {
 				if (board[row][col].size() > 1) {
 					++count;
 				}
 			}
-		}
-		return count;
+		}*/
+		return (size*size) - noOfSingles;
 	}
 
 	virtual vector< unique_ptr<Searchable> > successors() const override {
