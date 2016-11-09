@@ -23,23 +23,29 @@ private:
 	int size;
 	vector< vector< set<int> > > board;
 
-	void clearRow(const int & rowIn, const int & colIn, const int & value) {
+	bool clearRow(const int & rowIn, const int & colIn, const int & value) {
 		for (size_t col = 0; col < size; ++col) {
 			if (col != colIn) {
 				board[rowIn][col].erase(value);
+				if (board[rowIn][col].size() == 0) 
+					return false;
 			}
 		}
+		return true;
 	}
 
-	void clearCol(const int & rowIn, const int & colIn, const int & value) {
+	bool clearCol(const int & rowIn, const int & colIn, const int & value) {
 		for (size_t row = 0; row < size; ++row) {
 			if (row != rowIn) {
 				board[row][colIn].erase(value);
+				if (board[row][colIn].size() == 0) 
+					return false;
 			}
 		}
+		return true;
 	}	
 
-	void clearBox(const int & rowIn, const int & colIn, const int & value) {
+	bool clearBox(const int & rowIn, const int & colIn, const int & value) {
     	int y = sqrt(size) * floor(rowIn/sqrt(size));
     	int x = sqrt(size) * floor(colIn/sqrt(size)); 
 
@@ -47,9 +53,14 @@ private:
 			for (int j = x; j < x + sqrt(size); ++j) {
 				
 				if (i == rowIn && j == colIn) { continue; }
-				else { board[i][j].erase(value); }
+				else { 
+					board[i][j].erase(value); 
+					if (board[i][j].size() == 0)
+						return false;
+				}
 			}
 		}
+		return true;
 	}
 
 public:
@@ -95,9 +106,9 @@ public:
 
 					if (board[x][y].size() == 1) {
             			++current;
-						clearRow(x, y, *board[x][y].begin());
-						clearCol(x, y, *board[x][y].begin());
-						clearBox(x, y, *board[x][y].begin());
+						if (!clearRow(x, y, *board[x][y].begin())) return false;
+						if(!clearCol(x, y, *board[x][y].begin())) return false;
+						if(!clearBox(x, y, *board[x][y].begin())) return false;
 					}
 
 					if (board[x][y].size() == 2) {
