@@ -20,12 +20,12 @@ using std::sqrt;
 class Sudoku : public Searchable {
 
 private:
-	int size;
+	size_t size;
 	vector< vector< set<int> > > board;
 	vector< vector<bool> > singleVisited;
 	vector< vector<bool> > doubleVisited;
 
-	bool clearRow(const int & rowIn, const int & colIn, const int & value) {
+	bool clearRow(const size_t & rowIn, const size_t & colIn, const int & value) {
 		for (size_t col = 0; col < size; ++col) {
 			if (col != colIn) {
 				board[rowIn][col].erase(value);
@@ -36,7 +36,7 @@ private:
 		return true;
 	}
 
-	bool clearCol(const int & rowIn, const int & colIn, const int & value) {
+	bool clearCol(const size_t & rowIn, const size_t & colIn, const int & value) {
 		for (size_t row = 0; row < size; ++row) {
 			if (row != rowIn) {
 				board[row][colIn].erase(value);
@@ -47,12 +47,12 @@ private:
 		return true;
 	}	
 
-	bool clearBox(const int & rowIn, const int & colIn, const int & value) {
+	bool clearBox(const size_t & rowIn, const size_t & colIn, const int & value) {
     	int y = sqrt(size) * floor(rowIn/sqrt(size));
     	int x = sqrt(size) * floor(colIn/sqrt(size)); 
 
-		for (int i = y; i < y + sqrt(size); ++i) {
-			for (int j = x; j < x + sqrt(size); ++j) {
+		for (size_t i = y; i < y + sqrt(size); ++i) {
+			for (size_t j = x; j < x + sqrt(size); ++j) {
 				
 				if (i == rowIn && j == colIn) { continue; }
 				else { 
@@ -67,7 +67,7 @@ private:
 
 public:
 
-	Sudoku(const int & sizeIn) 
+	Sudoku(const size_t & sizeIn) 
 	: size (sizeIn) {
 
 		//Initialise 2d board of given size
@@ -179,13 +179,13 @@ public:
 						}
 
 						//Look for another set of size 2 in sub-grid
-						int rowStart = sqrt(size) * floor(x/sqrt(size));
-    					int colStart = sqrt(size) * floor(y/sqrt(size)); 
+						size_t rowStart = sqrt(size) * floor(x/sqrt(size));
+    					size_t colStart = sqrt(size) * floor(y/sqrt(size)); 
     					int foundX = -1;
     					int foundY = -1;
 
-						for (int i = rowStart; i < (rowStart + sqrt(size)); ++i) {
-							for (int j = colStart; j < (colStart + sqrt(size)); ++j) {
+						for (size_t i = rowStart; i < (rowStart + sqrt(size)); ++i) {
+							for (size_t j = colStart; j < (colStart + sqrt(size)); ++j) {
 								if ( (i != x) && (j != y) && (board[x][y] == board[i][j]) ) {
 									foundX = i;
 									foundY = j;
@@ -202,8 +202,8 @@ public:
 						++boxItr;
 						int second = *boxItr;
 
-						for (int i = rowStart; i < (rowStart + sqrt(size)); ++i) {
-							for (int j = colStart; j < (colStart + sqrt(size)); ++j) {
+						for (size_t i = rowStart; i < (rowStart + sqrt(size)); ++i) {
+							for (size_t j = colStart; j < (colStart + sqrt(size)); ++j) {
 								if ( (foundX > -1) && (i != x) && (i != foundX) && (j != y) && (j != foundY) ) {
 									board[i][j].erase(first);
 									board[i][j].erase(second);
@@ -223,7 +223,7 @@ public:
 	}
 
 	virtual bool isSolution() const override {
-		int count = 0;
+		size_t count = 0;
 		for (size_t i = 0; i < size; ++i) {
 			for (size_t j = 0; j < size; ++j) {
 				
@@ -249,9 +249,9 @@ public:
 	}
 
 	virtual int heuristicValue() const override {
-		int count = 0;
-		for (int row = 0; row < size; ++row) {
-			for (int col = 0; col < size; ++col) {
+		size_t count = 0;
+		for (size_t row = 0; row < size; ++row) {
+			for (size_t col = 0; col < size; ++col) {
 				if (board[row][col].size() > 1) {
 					++count;
 				}
