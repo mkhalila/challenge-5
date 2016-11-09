@@ -22,6 +22,7 @@ class Sudoku : public Searchable {
 private:
 	int size;
 	vector< vector< set<int> > > board;
+	vector< vector<bool> > singleVisited;
 
 	bool clearRow(const int & rowIn, const int & colIn, const int & value) {
 		for (size_t col = 0; col < size; ++col) {
@@ -68,8 +69,11 @@ public:
 	: size (sizeIn) {
 		//Initialise 2d board of given size
 		board.resize(size);
+		singleVisited.resize(size);
+
 		for (size_t i = 0; i < size; ++i) {
         	board[i] = vector< set<int> >(size);
+        	singleVisited[i] = vector<bool>(size);
     	}
 
     	//Creates set containing (1.. size) ints
@@ -82,6 +86,7 @@ public:
     	for (size_t row = 0; row < size; ++row) {
         	for (size_t col = 0; col < size; ++col) {
             	board[row][col] = initSet;
+            	singleVisited[row][col] = false;
         	}
     	}	
 	}
@@ -105,6 +110,10 @@ public:
           			if (board[x][y].size() == 0) { return false; }
 
 					if (board[x][y].size() == 1) {
+						if (singleVisited[x][y] == true) {
+							continue;
+						}
+						singleVisited[x][y] = true;
             			++current;
 						if (!clearRow(x, y, *board[x][y].begin())) return false;
 						if(!clearCol(x, y, *board[x][y].begin())) return false;
