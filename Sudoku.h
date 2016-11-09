@@ -156,7 +156,7 @@ public:
 						}
 
 						//Look for another set of size 2 in sub-grid
-						/*int rowStart = sqrt(size) * floor(x/sqrt(size));
+						int rowStart = sqrt(size) * floor(x/sqrt(size));
     					int colStart = sqrt(size) * floor(y/sqrt(size)); 
     					int foundX = -1;
     					int foundY = -1;
@@ -183,7 +183,7 @@ public:
 									board[i][j].erase(second);
 								}
 							}
-						}*/
+						}
 
 					}
 
